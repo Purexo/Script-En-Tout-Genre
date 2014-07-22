@@ -1,0 +1,53 @@
+#!/bin/bash
+# Action du script: 
+# 	Permet d'upload un fichier vers un serveur distant.
+# Prerequis :
+# 	xclip, scp
+# Liste des arguments :
+# 	1: type d'upload (sftp, ftp)
+# 	2: nom de domaine (ou ip)
+# 	3: numéro de port 
+# 	4: nom d'utilisateur
+# 	5: chemin du fichier à upload (de preference absolue)
+# 	6: chemin de destination
+# Syntaxe : upload sftp purexo.eu 22 root /home/purexo/test /var/www/share
+#             ^     ^       ^     ^   ^            ^              ^
+#       executable  1       2     3   4            5              6
+# gnome-terminal -e "/bin/bash -c read"
+
+# Verification des prerequis :
+if [ ! xclip ] ; then
+	echo "ERRCODE 1 : xclip n'est pas installé, sudo apt-get install xclip"
+	exit 1
+fi
+if [ ! scp ] ; then
+	echo "ERRCODE 2 : scp n'est pas installé, sudo apt-get install scp"
+	exit 2
+fi
+
+# Verification des parametres :
+if [ $# != 6 ] ; then
+	echo "ERRCODE 3 : Nombre de parametre incorrecte, Nombre de parametres requis : 6"
+	echo "upload sftp purexo.eu 22 root /fichier/a/upload /destination/fichier"
+	exit 3
+fi
+
+fichier=`basename -a $5`
+echo $fichier
+if [ "$1" = "sftp" ] ; then
+	#scp -P 22 '/chemin/du\ fichier' 'root@purexo.eu:/chemin/d\ arrive' (Je veux retourner faire du php !)
+	scp -P $3 "$5" ${4}@${2}:"$6"
+	echo sftp://${4}@${2}:${3}${6}/${fichier} | xclip
+	echo sftp://${4}@${2}:${3}${6}/${fichier} "copié dans le presse-papier"
+fi
+
+if [ "$2" = "ftp" ] ; then
+	echo "transfert de fichier en ftp encore non implanté"
+	echo "ERRCODE 4 : transfet ftp impossible"
+	exit 4
+fi
+
+echo "Appuyez sur entré lorsque le liens et collé"
+echo "A la fermeture le presse papier ce videra"
+echo "Oui c'est chiant..."
+read
