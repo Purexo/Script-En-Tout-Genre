@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+# raccourcis un lien via pupu.eu
+# passer le lien en paramètre
+#
+# Prérequis : curl, xclip.
+#
+
+curl --data "lien=$1" http://pupu.eu/index.php | grep "<a href=" | cut -d "\"" -f 2 | xclip -i
+xclip -o | xclip -sel clip
