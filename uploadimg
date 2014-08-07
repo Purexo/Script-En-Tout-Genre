@@ -22,6 +22,11 @@ name=$name'.'${var##*.}
 
 scp "$*" root@purexo.eu:/var/www/share/img/$name
 
-echo 'http://up.purexo.eu/img/'$name | xclip -i
+link=http://up.purexo.eu/img/$name
+
+echo $link | xclip -i
 xclip -o | xclip -sel clip
-read
+
+/home/purexo/Application/ScriptUnix/shorturl "$link"
+
+sleep 10
