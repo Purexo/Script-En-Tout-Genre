@@ -1,0 +1,32 @@
+#!/bin/bash
+#
+#
+# Upload une image -> up.purexo.eu
+# $* représente le chemin de l'image (comprenant des espace...)
+#
+#
+if [ ! xclip ] ; then
+	echo "ERRCODE 1 : xclip n'est pas installé, sudo apt-get install xclip"
+	exit 1
+fi
+if [ ! scp ] ; then
+	echo "ERRCODE 2 : scp n'est pas installé, sudo apt-get install scp"
+	exit 2
+fi
+echo "$*"
+echo "choose name :"
+read name
+
+var=`basename -a $*`
+name=$name'.'${var##*.}
+
+scp "$*" root@purexo.eu:/var/www/share/docs/$name
+
+link=http://up.purexo.eu/docs/$name
+
+echo $link | xclip -i
+xclip -o | xclip -sel clip
+
+/home/purexo/Application/ScriptUnix/shorturl "$link"
+
+sleep 10
