@@ -22,7 +22,7 @@ class API implements JsonSerializable {
 	
 	public function jsonSerialize() {
 		return (array)$this;
-    }
+	}
 }
 
 $api = new API();
