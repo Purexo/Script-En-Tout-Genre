@@ -25,6 +25,6 @@ for file in $(find ./ -type f ); do
   # ephemeral: is blocked since 6.9.4-7
   # http://www.imagemagick.org/discourse-server/viewtopic.php?t=29588
   if [ "$file" != "$new_file" ]; then
-    rm file
+    rm "$file"
   fi
 done
