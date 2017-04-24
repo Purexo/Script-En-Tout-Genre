@@ -16,8 +16,8 @@ size_x=758
 size_y=1024
 output_format=jpg
 
-for file in $(find ./ -type f ); do
-  # replace old extention by output_format
+find . -type f  | while read file; do
+# replace old extention by output_format
   new_file="${file%.*}.${output_format}"
 
   convert -strip -interlace Plane -grayscale Rec709Luma -resize "${size_x}x${size_y}"^ "$file" "$new_file"
